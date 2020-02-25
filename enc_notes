@@ -1,0 +1,26 @@
+[chashtag@claptop poshclip]$ ./encoder.py PoSh/Get-ClipBoardContent 20 > PoSh/Get-ClipBoardContent_enc
+Rounds ran:
+string_obfu
+gz
+amsi_bypass
+gz
+gz
+fm_xor
+rs_xor
+b64
+fm_xor
+b64
+fm_xor
+fm_xor
+gz
+b64
+rs_xor
+gz
+fm_xor
+b64
+b64
+gz
+gz
+gz
+rs_xor
+b64

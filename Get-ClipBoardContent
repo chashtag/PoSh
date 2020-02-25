@@ -100,7 +100,10 @@ function Get-ClipBoard-Content {
     # Used to check if the contents have changed
     $PrevLength = 0
     $PrevFirstChar = ""
- 
+
+    # make a timespan to Calculate start time to end time, in seconds
+    $StopTimeSeconds = (New-TimeSpan -Start (Get-Date) -End $StopTime).TotalSeconds
+
     for(;;){
         if ((Get-Date) -lt $StopTime){
                
@@ -135,8 +138,11 @@ function Get-ClipBoard-Content {
         $doneDT = (Get-Date).AddSeconds($seconds)
         while($doneDT -gt (Get-Date)) {
             $secondsLeft = $doneDT.Subtract((Get-Date)).TotalSeconds
-            $percent = ($seconds - $secondsLeft) / $seconds * 100
-            Write-Progress -Activity "Monitiring Clipboard of $env:COMPUTERNAME 'Monitoring will stop at' $StopTime" -Status "Saving captured information in" -SecondsRemaining $secondsLeft -PercentComplete $percent
+            $secondsLeft_overall = (New-TimeSpan -Start (Get-Date) -End $StopTime).TotalSeconds
+            $percent_barsub = ($seconds - $secondsLeft) / $seconds * 100
+            $percent_overall = ($StopTimeSeconds - $secondsLeft_overall) / $StopTimeSeconds  * 100
+            Write-Progress -Activity "Main p bar" -Status "overall timer" -SecondsRemaining $secondsLeft_overall -PercentComplete $percent_overall
+            Write-Progress -id 1 -Activity "Monitiring Clipboard of $env:COMPUTERNAME 'Monitoring will stop at' $StopTime" -Status "Saving captured information in" -SecondsRemaining $secondsLeft -PercentComplete $percent_barsub
             [System.Threading.Thread]::Sleep(500)
         } 
     }    
